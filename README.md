@@ -122,8 +122,11 @@ We have installed the following Beats on these machines:
 
 These Beats allow us to collect the following information from each machine:
 - Filebeat monitors specified log files or locations, collects log events, and then forwards it to the Elk server.
+
 ![](Images/Filebeat.png)
+
 - Metricbeat collect metrics from systems and service e.g., memory usage of a hosting server. It can also be used to monitor other beats.
+
 ![](Images/Metricbeat.png) 
 
 ### Using the Playbook
@@ -150,8 +153,8 @@ nano /etc/ansible/hosts
 
 nano /etc/ansible/ansible.cfg
 
-Uncomment the remote_user line and replace root with your admin username using this format:
-- remote_user = <user-name-for-web-VMs>
+- Uncomment the remote_user line and replace root with your admin username using this format:
+remote_user = <user-name-for-web-VMs>
 
 ```
 # What flags to pass to sudo
