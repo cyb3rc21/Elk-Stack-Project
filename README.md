@@ -135,14 +135,14 @@ SSH into the control node and follow the steps below:
 
 nano /etc/ansible/hosts
 
- # /etc/ansible/hosts
+ "# /etc/ansible/hosts
  [webservers]
  10.0.0.4 ansible_python_interpreter=/usr/bin/python3
  10.0.0.5 ansible_python_interpreter=/usr/bin/python3
  10.0.0.6 ansible_python_interpreter=/usr/bin/python3
 
  [elk]
- 10.1.0.4 ansible_python_interpreter=/usr/bin/python3
+ 10.1.0.4 ansible_python_interpreter=/usr/bin/python3"
 
 - Update the Ansible configuration file /etc/ansible/ansible.cfg using and set the remote_user parameter to the admin user of the web servers.
 
@@ -151,7 +151,7 @@ nano /etc/ansible/ansible.cfg
 Uncomment the remote_user line and replace root with your admin username using this format:
 - remote_user = <user-name-for-web-VMs>
 
-# What flags to pass to sudo
+"# What flags to pass to sudo
 # WARNING: leaving out the defaults might create unexpected behaviours
 #sudo_flags = -H -S -n
 
@@ -167,7 +167,7 @@ remote_user = sysadmin
 #log_path = /var/log/ansible.log
 
 # default module name for /usr/bin/ansible
-#module_name = command
+#module_name = command"
 
 - Run the playbook filebeat-playbook.yml (/etc/ansible/roles/filebeat-playbook.yml), and navigate to Kibana (http://20.213.241.110:5601/app/kibana#/home) to check that the installation worked as expected.
 
