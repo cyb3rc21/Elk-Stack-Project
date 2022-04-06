@@ -2,11 +2,45 @@
 
 The files in this repository were used to configure the network depicted below.
 
-"Diagrams\Cloud Security Network Diagram + Elk.png"
+![](Diagrams/Cloud_Security_Network_Diagram+Elk.png)
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the filebeat-playbook file may be used to install only certain pieces of it, such as Filebeat.
 
-  - _TODO: Enter the playbook file._
+---
+- name: Config Web VM with Docker
+  hosts: webservers
+  become: true
+  tasks:
+  - name: docker.io
+    apt:
+      force_apt_get: yes
+      update_cache: yes
+      name: docker.io
+      state: present
+
+  - name: Install pip3
+    apt:
+      force_apt_get: yes
+      name: python3-pip
+      state: present
+
+  - name: Install Docker python module
+    pip:
+      name: docker
+      state: present
+
+  - name: download and launch a docker web container
+    docker_container:
+      name: dvwa
+      image: cyberxsecurity/dvwa
+      state: started
+      published_ports: 80:80
+
+  - name: Enable docker service
+    systemd:
+      name: docker
+      enabled: yes
+
 
 This document contains the following details:
 - Description of the Topologu
@@ -45,20 +79,20 @@ The configuration details of each machine may be found below.
 The machines on the internal network are not exposed to the public Internet. 
 
 Only the Elk machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- 20.58.190.73 (?is it supposed to be my IP?) via TCP port 5601 ???
+- My Personal IP address via TCP port 5601
 
 Machines within the network can only be accessed by Workstation via the JumpBoxProvisioner.
 - The JumpBoxProvisioner has access to the ELK VM and its IP address is 20.58.190.73
 
-A summary of the access policies in place can be found in the table below. ???
+A summary of the access policies in place can be found in the table below.
 
 | Name     | Publicly Accessible | Allowed IP Addresses    |
 |----------|---------------------|-------------------------|
-| JumpBox  | No (yes? for my IP?)| My IP ?                 | 
+| JumpBox  | Yes/No              | My IP                   | 
 | Web 1    | No                  |                         | 
 | Web 2    | No                  |                         | 
 | Web 3    | No                  |                         | 
-| Elk      | Yes                 | 20.58.190.73            | 
+| Elk      | Yes/No              | My IP/20.58.190.73      | 
 
 ### Elk Configuration
 
@@ -87,39 +121,15 @@ We have installed the following Beats on these machines:
 - Metricbeat
 
 These Beats allow us to collect the following information from each machine:
-- Filebeat -monitors specified log files or locations, collects log events- e.g., tracking the cahnges made to system logs using event.dataset : "system.syslog" ?
-- Metricbeat -collect metrics from systems and service- e.g., memory usage of a hosting server. ?
-
+- Filebeat -monitors specified log files or locations, collects log events- e.g., and then forwards it to the Els server.
+(add image)
+- Metricbeat -collect metrics from systems and service- e.g., memory usage of a hosting server. It can also be used to monitor other beats.
+(add image)
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below: ??
-- Copy the playbook (.yml) file to the Ansible directory. 
+- Copy the playbook (ex: filebit or instal_elck.yml) file to the Ansible (ect/Ansible) directory. 
 - Update the host file to include webserver and ELK.
-- Run the playbook, and navigate to Kibana to check that the installation worked as expected.
-
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- http://20.213.241.110:5601/app/kibana#/home
-
-_As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._ ???
-
-Update the filebeat-config and metricbeat-config files each to point towards the ELK server IP address, username and password. (10.1.0.4, elastic & changeme, respectively, for both config files)
-
-Update the /etc/ansible/hosts file with two separate sections for the private server IP addresses of the ELK server and the webservers on the internal network. (see above for IP addresses) configure two sections: [webservers] [elk]
-
-# /etc/ansible/hosts
- [webservers]
- 10.0.0.9 ansible_python_interpreter=/usr/bin/python3
- 10.0.0.8 ansible_python_interpreter=/usr/bin/python3
- 10.0.0.10 ansible_python_interpreter=/usr/bin/python3
-
- [elk]
- 10.1.0.4 ansible_python_interpreter=/usr/bin/python3
-
-Run the filebeat and metricbeat playbooks, and ssh into each webserver (10.0.0.9, 10.0.0.8, and 10.0.0.10)
-enter: ssh sysadmin@server-ip-address (replace "server-ip-address" with above IP addresses).
-
-Run the install-ELK playbook and navigate to the ELK server's Kibana webpage using the ELK server's public IP address at the following URL (http://20.213.241.110:5601/app/kibana#/home) to check that the installation worked as expected. You should see the Kibana homepage.
+- Run the playbook, and navigate to Kibana (http://20.213.241.110:5601/app/kibana#/home) to check that the installation worked as expected.
