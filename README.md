@@ -4,7 +4,7 @@ The files in this repository were used to configure the network depicted below.
 
 ![](Diagrams/Cloud_Security_Network_Diagram+Elk.png)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the filebeat-playbook file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the pentest.yml file may be used to install only certain pieces of it, such as Filebeat.
 
 ---
 - name: Config Web VM with Docker
@@ -65,21 +65,21 @@ Integrating an ELK server allows users to easily monitor the vulnerable VMs for 
 
 The configuration details of each machine may be found below.
 
-| Name        | Function      | IP Address              | Operating System  |
-|-------------|---------------|-------------------------|-------------------|
-| Workstation | Access Control| My IP Address           | Windows           |
-| JumpBox     | Gateway       | 10.0.0.4/20.58.190.73   | Linux             |
-| Web 1       | Webserver     | 10.0.0.9/20.213.164.101 | Linux             |
-| Web 2       | Webserver     | 10.0.0.8/20.213.164.101 | Linux             |
-| Web 3       | Webserver     | 10.0.0.10/20.213.164.101| Linux             |
-| Elk         | Monitoring    | 10.1.0.4/20.213.241.110 | Linux             |
+| Name        | Function      | IP Address                      | Operating System  |
+|-------------|---------------|---------------------------------|-------------------|
+| Workstation | Access Control| My personal IP Address (My IP)  | Windows           |
+| JumpBox     | Gateway       | 10.0.0.4/20.58.190.73           | Linux             |
+| Web 1       | Webserver     | 10.0.0.9/20.213.164.101         | Linux             |
+| Web 2       | Webserver     | 10.0.0.8/20.213.164.101         | Linux             |
+| Web 3       | Webserver     | 10.0.0.10/20.213.164.101        | Linux             |
+| Elk         | Monitoring    | 10.1.0.4/20.213.241.110         | Linux             |
 
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
 
 Only the Elk machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- My Personal IP address via TCP port 5601
+- My personal IP address via TCP port 5601
 
 Machines within the network can only be accessed by Workstation via the JumpBoxProvisioner.
 - The JumpBoxProvisioner has access to the ELK VM and its IP address is 20.58.190.73
@@ -108,7 +108,7 @@ The playbook implements the following tasks:
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-TO DO "Images/docker_ps_output.png" TO DO
+![](Images/docker_ps_output.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
@@ -121,15 +121,54 @@ We have installed the following Beats on these machines:
 - Metricbeat
 
 These Beats allow us to collect the following information from each machine:
-- Filebeat -monitors specified log files or locations, collects log events- e.g., and then forwards it to the Els server.
-(add image)
-- Metricbeat -collect metrics from systems and service- e.g., memory usage of a hosting server. It can also be used to monitor other beats.
-(add image)
+- Filebeat monitors specified log files or locations, collects log events, and then forwards it to the Elk server.
+![](Images/Filebeat.png)
+- Metricbeat collect metrics from systems and service e.g., memory usage of a hosting server. It can also be used to monitor other beats.
+![](Images/Metricbeat.png) 
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
-SSH into the control node and follow the steps below: ??
-- Copy the playbook (ex: filebit or instal_elck.yml) file to the Ansible (ect/Ansible) directory. 
+SSH into the control node and follow the steps below:
+- Copy the playbook (ex: filebeat-playbook.yml or instal_elk.yml) file to the Ansible (ect/Ansible) directory. 
 - Update the host file to include webserver and ELK.
-- Run the playbook, and navigate to Kibana (http://20.213.241.110:5601/app/kibana#/home) to check that the installation worked as expected.
+
+nano /etc/ansible/hosts
+
+ # /etc/ansible/hosts
+ [webservers]
+ 10.0.0.4 ansible_python_interpreter=/usr/bin/python3
+ 10.0.0.5 ansible_python_interpreter=/usr/bin/python3
+ 10.0.0.6 ansible_python_interpreter=/usr/bin/python3
+
+ [elk]
+ 10.1.0.4 ansible_python_interpreter=/usr/bin/python3
+
+- Update the Ansible configuration file /etc/ansible/ansible.cfg using and set the remote_user parameter to the admin user of the web servers.
+
+nano /etc/ansible/ansible.cfg
+
+Uncomment the remote_user line and replace root with your admin username using this format:
+- remote_user = <user-name-for-web-VMs>
+
+# What flags to pass to sudo
+# WARNING: leaving out the defaults might create unexpected behaviours
+#sudo_flags = -H -S -n
+
+# SSH timeout
+#timeout = 10
+
+# default user to use for playbooks if user is not specified
+# (/usr/bin/ansible will use current user as default)
+remote_user = sysadmin
+
+# logging is off by default unless this path is defined
+# if so defined, consider logrotate
+#log_path = /var/log/ansible.log
+
+# default module name for /usr/bin/ansible
+#module_name = command
+
+- Run the playbook filebeat-playbook.yml (/etc/ansible/roles/filebeat-playbook.yml), and navigate to Kibana (http://20.213.241.110:5601/app/kibana#/home) to check that the installation worked as expected.
+
+![](Images/Kibana_Home.png)
