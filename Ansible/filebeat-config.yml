@@ -1,0 +1,250 @@
+######################## Filebeat Configuration ############################
+# This file is a full configuration example documenting all non-deprecated
+# options in comments. For a shorter configuration example, that contains only
+# the most common options, please see filebeat.yml in the same directory.
+#
+# You can find the full configuration reference here:
+# https://www.elastic.co/guide/en/beats/filebeat/index.html
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+
+#==========================  Modules configuration =============================
+filebeat.modules:
+
+#-------------------------------- System Module --------------------------------
+#- module: system
+  # Syslog
+  #syslog:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+  # Authorization logs
+  #auth:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+#-------------------------------- Apache Module --------------------------------
+#- module: apache
+  # Access logs
+  #access:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+  # Error logs
+  #error:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+#-------------------------------- Auditd Module --------------------------------
+#- module: auditd
+  #log:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+#---------------------------- Elasticsearch Module ----------------------------
+- module: elasticsearch
+  # Server log
+  server:
+    enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+  gc:
+    enabled: true
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+  audit:
+    enabled: true
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+  slowlog:
+    enabled: true
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+  deprecation:
+    enabled: true
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+#------------------------------- Haproxy Module -------------------------------
+- module: haproxy
+  # All logs
+  log:
+    enabled: true
+
+    # Set which input to use between syslog (default) or file.
+    #var.input:
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+#-------------------------------- Icinga Module --------------------------------
+#- module: icinga
+  # Main logs
+  #main:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+  # Debug logs
+  #debug:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+  # Startup logs
+  #startup:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+#--------------------------------- IIS Module ---------------------------------
+#- module: iis
+  # Access logs
+  #access:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+  # Error logs
+  #error:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+#-------------------------------- Kafka Module --------------------------------
+- module: kafka
+  # All logs
+  log:
+    enabled: true
+
+    # Set custom paths for Kafka. If left empty,
+    # Filebeat will look under /opt.
+    #var.kafka_home:
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+#-------------------------------- Kibana Module --------------------------------
+- module: kibana
+  # All logs
+  log:
+    enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+#------------------------------- Logstash Module -------------------------------
+#- module: logstash
+  # logs
+  #log:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    # var.paths:
+
+  # Slow logs
+  #slowlog:
+    #enabled: true
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+#------------------------------- Mongodb Module -------------------------------
+#- module: mongodb
+  # Logs
+  #log:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+    # Filebeat will choose the paths depending on your OS.
+    #var.paths:
+
+    # Input configuration (advanced). Any input configuration option
+    # can be added under this section.
+    #input:
+
+#-------------------------------- MySQL Module --------------------------------
+#- module: mysql
+  # Error logs
+  #error:
+    #enabled: true
+
+    # Set custom paths for the log files. If left empty,
+
